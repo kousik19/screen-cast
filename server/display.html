@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <title>Codeboard Screecast Viewer</title>
+</head>
+<body style="background: linear-gradient(45deg, #7b0909, #6771b8b8);">
+    <img style="width: 90%; height: 90%; margin-top: 2%; margin-left: 5%"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" crossorigin="anonymous"></script>
+    <script>
+
+        window.onload = function() {
+            var room = prompt("Please enter room ID : ");
+            if(room.trim().length == 0) {
+                document.write("<h1> Room ID is mandatory to join </h1>");
+                return;
+            }
+
+            socket = io.connect('http://192.168.0.100:5000');
+
+            socket.emit("join-message", room);
+            socket.on('screen-data', function(message){
+                $("img").attr("src", "data:image/png;base64," + message);
+
+            })
+        }
+
+    </script>
+</body>
+</html>
